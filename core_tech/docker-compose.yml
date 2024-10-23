@@ -1,0 +1,12 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: coretech
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: coretech
+    ports:
+      - "5433:5432"
+    # volumes:
+    #   - ./init.sql:/docker-entrypoint-initdb.d/init.sql
