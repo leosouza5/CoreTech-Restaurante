@@ -1,12 +1,20 @@
+import 'package:core_tech/features/auth_screen/controller/auth_controller.dart';
 import 'package:core_tech/global/components/botao.dart';
 import 'package:core_tech/global/components/input.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class AuthScreen extends StatelessWidget {
+class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
 
   @override
+  State<AuthScreen> createState() => _AuthScreenState();
+}
+
+class _AuthScreenState extends State<AuthScreen> {
+  @override
   Widget build(BuildContext context) {
+    final controller = context.watch<AuthController>();
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -44,21 +52,40 @@ class AuthScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, fontSize: 28),
                     ),
-                    Column(
-                      children: [
-                        Input(
-                          label: Text("Usuario"),
-                          borderColor: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                        SizedBox(
-                          height: 32,
-                        ),
-                        Input(
-                          label: Text("Senha"),
-                          senha: true,
-                          borderColor: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                      ],
+                    Form(
+                      key: controller.formKey,
+                      child: Column(
+                        children: [
+                          Input(
+                            validator: (value) {
+                              if (value != null && value.isNotEmpty) {
+                                return null;
+                              } else {
+                                return "Informe um usuário válido";
+                              }
+                            },
+                            label: Text("Usuario"),
+                            controller: controller.controllerUsuario,
+                            borderColor: Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
+                          SizedBox(
+                            height: 32,
+                          ),
+                          Input(
+                            validator: (value) {
+                              if (value != null && value.isNotEmpty) {
+                                return null;
+                              } else {
+                                return "Informe uma senha válida";
+                              }
+                            },
+                            controller: controller.controllerSenha,
+                            label: Text("Senha"),
+                            senha: true,
+                            borderColor: Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
+                        ],
+                      ),
                     ),
                     Align(alignment: Alignment.centerRight, child: Botao())
                   ],

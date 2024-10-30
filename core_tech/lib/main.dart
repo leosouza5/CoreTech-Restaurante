@@ -1,5 +1,8 @@
+import 'package:core_tech/features/auth_screen/controller/auth_controller.dart';
 import 'package:core_tech/features/auth_screen/screens/auth_screen.dart';
 import 'package:core_tech/features/food_menu/controller/food_menu_controller.dart';
+import 'package:core_tech/features/users/controller/users_controllers.dart';
+import 'package:core_tech/features/web_home_screen/controller/pedidos_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +24,9 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => FoodMenuController()),
+        ChangeNotifierProvider(create: (context) => AuthController()),
+        ChangeNotifierProvider(create: (context) => UsersControllers()),
+        ChangeNotifierProvider(create: (context) => PedidosController()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
