@@ -1,6 +1,7 @@
 import 'package:core_tech/features/auth_screen/controller/auth_controller.dart';
 import 'package:core_tech/global/components/botao.dart';
 import 'package:core_tech/global/components/input.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,7 +40,7 @@ class _AuthScreenState extends State<AuthScreen> {
             elevation: 6,
             child: Container(
               height: constraints.maxHeight / 1.5,
-              width: constraints.maxWidth / 2,
+              width: defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS ? constraints.maxWidth * 0.9 : constraints.maxWidth / 2,
               decoration: BoxDecoration(color: Theme.of(context).colorScheme.surfaceContainerHigh, borderRadius: BorderRadius.circular(10)),
               padding: const EdgeInsets.all(16),
               child: Padding(

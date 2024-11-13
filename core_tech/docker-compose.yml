@@ -21,3 +21,13 @@ services:
       - "5050:80"
     depends_on:
       - db
+
+  app:
+    image: node:latest
+    ports:
+      - "3030:3000"
+    working_dir: /home/node/app
+    volumes:
+      - ./server:/home/node/app
+    command: "npm run dev"
+    restart: always

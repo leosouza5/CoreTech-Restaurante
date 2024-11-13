@@ -1,5 +1,6 @@
 import 'package:core_tech/features/food_menu/components/modal_novo_cardapio.dart';
 import 'package:core_tech/features/food_menu/components/modal_novo_produto.dart';
+import 'package:core_tech/features/food_menu/components/modal_remove_cardapio.dart';
 import 'package:core_tech/features/food_menu/components/produto_linha.dart';
 import 'package:core_tech/features/food_menu/controller/food_menu_controller.dart';
 import 'package:core_tech/global/enum/enum.dart';
@@ -109,7 +110,7 @@ class _FoodMenuState extends State<FoodMenu> {
                                     children: [
                                       Container(),
                                       Text(controller.listaCardapios[index]['nome']),
-                                      controller.listaCardapios[index]['ativo'] ? Icon(Icons.star_outline) : Container(),
+                                      controller.listaCardapios[index]['principal'] ? Icon(Icons.star_outline) : Container(),
                                     ],
                                   ),
                                 );
@@ -152,20 +153,45 @@ class _FoodMenuState extends State<FoodMenu> {
                                   controller.nomeCardapioSelecionado,
                                   style: TextStyle(fontSize: 24),
                                 ),
-                                RawMaterialButton(
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                  padding: const EdgeInsets.all(12),
-                                  onPressed: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => ModalNovoCardapio(
-                                        edicao: true,
-                                        nomeCardapio: controller.nomeCardapioSelecionado,
-                                        idCardapio: controller.ultimoCardapioSelecionado,
-                                      ),
-                                    );
-                                  },
-                                  child: const Icon(Icons.edit),
+                                Row(
+                                  children: [
+                                    RawMaterialButton(
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                      padding: const EdgeInsets.all(12),
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => ModalRemoveCardapio(
+                                            id: controller.ultimoCardapioSelecionado,
+                                          ),
+                                        );
+                                      },
+                                      child: const Icon(Icons.delete),
+                                    ),
+                                    RawMaterialButton(
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                      padding: const EdgeInsets.all(12),
+                                      onPressed: () {
+                                        controller.tornaCardapioPrincipal(context, controller.ultimoCardapioSelecionado);
+                                      },
+                                      child: const Icon(Icons.star_outline),
+                                    ),
+                                    RawMaterialButton(
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                                      padding: const EdgeInsets.all(12),
+                                      onPressed: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => ModalNovoCardapio(
+                                            edicao: true,
+                                            nomeCardapio: controller.nomeCardapioSelecionado,
+                                            idCardapio: controller.ultimoCardapioSelecionado,
+                                          ),
+                                        );
+                                      },
+                                      child: const Icon(Icons.edit),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),

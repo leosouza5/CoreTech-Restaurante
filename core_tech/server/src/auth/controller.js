@@ -3,8 +3,9 @@ import { pool } from '../db/db.js'
 export const verificaLogin = (req, res) => {
   const { nome, senha } = req.body;
 
-  pool.query("SELECT * FROM tb_usuario WHERE nome = $1 AND senha = $2", [nome, senha], (error, result) => {
+  pool.query("SELECT id,nome,tipo_usuario FROM tb_usuario WHERE nome = $1 AND senha = $2", [nome, senha], (error, result) => {
     if (error) {
+      console.log(error.message)
       return res.status(200).json({ error: "Erro ao verificar login." });
     }
 
@@ -13,7 +14,7 @@ export const verificaLogin = (req, res) => {
     }
 
     if (result.rowCount === 1) {
-      res.status(200).json({ sucesso: "Login feito com sucesso" })
+      res.status(200).json(result.rows)
     }
 
 

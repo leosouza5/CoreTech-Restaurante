@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Input extends StatefulWidget {
   final String? hint;
@@ -6,11 +7,12 @@ class Input extends StatefulWidget {
   final Text? label;
   final bool senha;
   final bool enabled;
+  final List<TextInputFormatter>? inputFormatters;
   final String? initialValue;
   final String? Function(String?)? validator;
   final TextEditingController? controller;
   final Color? borderColor;
-  const Input({super.key, this.label, this.hint, this.hintStyle, this.borderColor, this.senha = false, this.controller, this.validator, this.enabled = true, this.initialValue});
+  const Input({super.key, this.label, this.hint, this.hintStyle, this.borderColor, this.senha = false, this.controller, this.validator, this.enabled = true, this.initialValue, this.inputFormatters});
 
   @override
   State<Input> createState() => _InputState();
@@ -22,6 +24,7 @@ class _InputState extends State<Input> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      inputFormatters: widget.inputFormatters,
       initialValue: widget.initialValue,
       validator: widget.validator,
       controller: widget.controller,

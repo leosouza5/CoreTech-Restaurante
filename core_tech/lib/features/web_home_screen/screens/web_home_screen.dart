@@ -2,6 +2,7 @@ import 'package:core_tech/features/food_menu/screens/food_menu.dart';
 import 'package:core_tech/features/users/screens/users.dart';
 import 'package:core_tech/features/web_home_screen/components/header_tabela.dart';
 import 'package:core_tech/features/web_home_screen/controller/pedidos_controller.dart';
+import 'package:core_tech/features/web_home_screen/screens/order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -133,10 +134,36 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                             children: [
                               TableRow(
                                 children: [
-                                  HeaderTabela(icon: Icon(Icons.shopping_cart), titulo: 'Pedido'),
-                                  HeaderTabela(icon: Icon(Icons.desk), titulo: 'Mesa'),
-                                  HeaderTabela(icon: Icon(Icons.date_range), titulo: 'Data'),
-                                  HeaderTabela(icon: Icon(Icons.attach_money), titulo: 'Valor'),
+                                  HeaderTabela(
+                                      icon: Icon(Icons.shopping_cart),
+                                      titulo: Text(
+                                        'Pedido',
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                      )),
+                                  HeaderTabela(
+                                      icon: Icon(Icons.desk),
+                                      titulo: Text(
+                                        'Mesa',
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                      )),
+                                  HeaderTabela(
+                                      icon: Icon(Icons.date_range),
+                                      titulo: Text(
+                                        'Data',
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                      )),
+                                  HeaderTabela(
+                                      icon: Icon(Icons.attach_money),
+                                      titulo: Text(
+                                        'Valor',
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                      )),
+                                  HeaderTabela(
+                                      icon: Icon(Icons.attach_money),
+                                      titulo: Text(
+                                        'Ação',
+                                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                                      )),
                                 ],
                               ),
                               ...controller.pedidos.map(
@@ -144,7 +171,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                                   decoration: BoxDecoration(color: Theme.of(context).colorScheme.surfaceContainer),
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.all(12),
+                                      padding: EdgeInsets.all(32),
                                       child: TableCell(
                                         child: SizedBox(
                                           child: Center(child: Text(e['id'].toString())),
@@ -152,7 +179,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.all(12),
+                                      padding: EdgeInsets.all(32),
                                       child: TableCell(
                                         child: SizedBox(
                                           child: Center(child: Text(e['mesa'])),
@@ -160,7 +187,7 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.all(12),
+                                      padding: EdgeInsets.all(32),
                                       child: TableCell(
                                         child: SizedBox(
                                           child: Center(
@@ -170,10 +197,28 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.all(12),
+                                      padding: EdgeInsets.all(32),
                                       child: TableCell(
                                         child: SizedBox(
                                           child: Center(child: Text(e['valor_total'])),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.all(22),
+                                      child: TableCell(
+                                        child: SizedBox(
+                                          child: Center(
+                                            child: IconButton(
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) => OrderScreen(idPedido: e['id']),
+                                                      ));
+                                                },
+                                                icon: Icon(Icons.visibility)),
+                                          ),
                                         ),
                                       ),
                                     ),

@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'package:core_tech/global/enum/enum.dart';
+import 'package:core_tech/main.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class UsersControllers extends ChangeNotifier {
 
   void recuperarUsuarios() async {
     final dio = Dio();
-    const url = 'http://192.168.0.202:3000/auth/users';
+    const url = '$urlServer/auth/users';
 
     try {
       listaUserState = LocalState.loading;
@@ -37,7 +38,7 @@ class UsersControllers extends ChangeNotifier {
 
   void criarUsuario(BuildContext context, Map data) async {
     final dio = Dio();
-    const url = 'http://192.168.0.202:3000/auth/user';
+    const url = '$urlServer/auth/user';
 
     try {
       final response = await dio.post(url, data: data);
@@ -62,7 +63,7 @@ class UsersControllers extends ChangeNotifier {
 
   void atualizaUsuario(BuildContext context, Map data, int id) async {
     final dio = Dio();
-    final url = 'http://192.168.0.202:3000/auth/user/$id';
+    final url = '$urlServer/auth/user/$id';
 
     try {
       final response = await dio.patch(url, data: data);
@@ -87,7 +88,7 @@ class UsersControllers extends ChangeNotifier {
 
   void deletaUsuario(BuildContext context, int id) async {
     final dio = Dio();
-    final url = 'http://192.168.0.202:3000/auth/user/$id';
+    final url = '$urlServer/auth/user/$id';
 
     try {
       final response = await dio.delete(

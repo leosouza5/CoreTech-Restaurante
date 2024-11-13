@@ -44,94 +44,112 @@ class _ModalNovoProdutoState extends State<ModalNovoProduto> {
     print(widget.nome);
     print(widget.descricao);
     print(widget.valor);
-    return AlertDialog(
-      title: Text(widget.edicao ? 'Atualizar Produto' : 'Adicionar Produto'),
-      content: Form(
-        key: formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Input(
-              validator: (value) {
-                if (value != null && value.isNotEmpty) {
-                  return null;
-                } else {
-                  return "Informe um nome válido";
-                }
-              },
-              controller: controllerNome,
-              label: Text("Nome"),
+    return Dialog(
+      insetPadding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1),
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.3,
+        child: Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  widget.edicao ? 'Atualizar Produto' : 'Adicionar Produto',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                ),
+                const SizedBox(height: 20),
+                Input(
+                  validator: (value) {
+                    if (value != null && value.isNotEmpty) {
+                      return null;
+                    } else {
+                      return "Informe um nome válido";
+                    }
+                  },
+                  controller: controllerNome,
+                  label: Text("Nome"),
+                ),
+                Input(
+                  validator: (value) {
+                    if (value != null && value.isNotEmpty) {
+                      return null;
+                    } else {
+                      return "Informe uma descrição válida";
+                    }
+                  },
+                  controller: controllerDescricao,
+                  label: Text("Descrição"),
+                ),
+                Input(
+                  validator: (value) {
+                    if (value != null && value.isNotEmpty) {
+                      return null;
+                    } else {
+                      return "Informe um valor válido";
+                    }
+                  },
+                  controller: controllerValor,
+                  label: Text("Valor"),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(14.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(); // Fecha o alerta
+                        },
+                        child: Text('Cancelar'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          final controllerMenu = context.read<FoodMenuController>();
+
+                          if (formKey.currentState!.validate()) {
+                            if (widget.edicao) {
+                              controllerMenu.editaProduto(
+                                context,
+                                {
+                                  "nome": controllerNome.text,
+                                  "descricao": controllerDescricao.text,
+                                  "valor": controllerValor.text,
+                                  "id_cardapio": widget.idCardapio,
+                                },
+                                widget.id!,
+                              );
+                            } else {
+                              controllerMenu.adicionarProdutoAoCardapio(context, {
+                                "nome": controllerNome.text,
+                                "descricao": controllerDescricao.text,
+                                "valor": controllerValor.text,
+                                "id_cardapio": widget.idCardapio,
+                              });
+                            }
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          backgroundColor: Theme.of(context).colorScheme.tertiary,
+                        ),
+                        child: Text(
+                          'Salvar',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onTertiary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            Input(
-              validator: (value) {
-                if (value != null && value.isNotEmpty) {
-                  return null;
-                } else {
-                  return "Informe uma descrição válida";
-                }
-              },
-              controller: controllerDescricao,
-              label: Text("Descrição"),
-            ),
-            Input(
-              validator: (value) {
-                if (value != null && value.isNotEmpty) {
-                  return null;
-                } else {
-                  return "Informe um valor válido";
-                }
-              },
-              controller: controllerValor,
-              label: Text("Valor"),
-            ),
-          ],
+          ),
         ),
       ),
-      actions: <Widget>[
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop(); // Fecha o alerta
-          },
-          child: Text('Cancelar'),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            final controllerMenu = context.read<FoodMenuController>();
-
-            if (formKey.currentState!.validate()) {
-              if (widget.edicao) {
-                controllerMenu.editaProduto(
-                  context,
-                  {
-                    "nome": controllerNome.text,
-                    "descricao": controllerDescricao.text,
-                    "valor": controllerValor.text,
-                    "id_cardapio": widget.idCardapio,
-                  },
-                  widget.id!,
-                );
-              } else {
-                controllerMenu.adicionarProdutoAoCardapio(context, {
-                  "nome": controllerNome.text,
-                  "descricao": controllerDescricao.text,
-                  "valor": controllerValor.text,
-                  "id_cardapio": widget.idCardapio,
-                });
-              }
-            }
-          },
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            backgroundColor: Theme.of(context).colorScheme.tertiary,
-          ),
-          child: Text(
-            'Salvar',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onTertiary,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'package:core_tech/global/enum/enum.dart';
+import 'package:core_tech/main.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class FoodMenuController extends ChangeNotifier {
 
   void novoCardapio(String nome, BuildContext context) async {
     final dio = Dio();
-    const url = 'http://192.168.0.202:3000/cardapio';
+    const url = '$urlServer/cardapio';
 
     try {
       final response = await dio.post(url, data: {'nome': nome});
@@ -37,7 +38,7 @@ class FoodMenuController extends ChangeNotifier {
 
   recuperarCardapios(BuildContext context) async {
     final dio = Dio();
-    const url = 'http://192.168.0.202:3000/cardapios';
+    const url = '$urlServer/cardapios';
 
     try {
       cardapiosState = LocalState.loading;
@@ -62,7 +63,7 @@ class FoodMenuController extends ChangeNotifier {
 
   void recuperarProdutosCardapio(BuildContext context, int id, String nomeCardapio) async {
     final dio = Dio();
-    final url = 'http://192.168.0.202:3000/cardapio/produtos/$id';
+    final url = '$urlServer/cardapio/produtos/$id';
 
     try {
       ultimoCardapioSelecionado = id;
@@ -87,7 +88,7 @@ class FoodMenuController extends ChangeNotifier {
 
   void adicionarProdutoAoCardapio(BuildContext context, Map body) async {
     final dio = Dio();
-    const url = 'http://192.168.0.202:3000/cardapio/produto';
+    const url = '$urlServer/cardapio/produto';
 
     print(body);
 
@@ -109,7 +110,7 @@ class FoodMenuController extends ChangeNotifier {
 
   void editaProduto(BuildContext context, Map body, int idProduto) async {
     final dio = Dio();
-    final url = 'http://192.168.0.202:3000/cardapio/produto/$idProduto';
+    final url = '$urlServer/cardapio/produto/$idProduto';
     print(url);
 
     print(body);
@@ -134,7 +135,7 @@ class FoodMenuController extends ChangeNotifier {
 
   void editaCardapio(BuildContext context, Map body, int idCardapio) async {
     final dio = Dio();
-    final url = 'http://192.168.0.202:3000/cardapio/$idCardapio';
+    final url = '$urlServer/cardapio/$idCardapio';
     print(url);
 
     print(body);
@@ -145,24 +146,82 @@ class FoodMenuController extends ChangeNotifier {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Cardápio atualizado com sucesso !")),
       );
-      recuperarProdutosCardapio(context, ultimoCardapioSelecionado, nomeCardapioSelecionado);
+      recuperarCardapios(context);
+      cardapioEspecificoState = LocalState.idle;
+      notifyListeners();
+      // recuperarProdutosCardapio(context, ultimoCardapioSelecionado, nomeCardapioSelecionado);
       Navigator.pop(context);
     } catch (e) {
+      print(e.toString());
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Erro ao atualizar Cardápio !")),
       );
     }
   }
 
-  void removerProduto(BuildContext context, int id) async {
+  void tornaCardapioPrincipal(BuildContext context, int idCardapio) async {
     final dio = Dio();
-    final url = 'http://192.168.0.202:3000/cardapio/produto/$id';
+    final url = '$urlServer/cardapio/$idCardapio';
+    print(url);
+
+    try {
+      final response = await dio.put(url);
+      print(response);
+      if (response.data is Map && response.data.containsKey('error')) {
+        throw response.data['error'];
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(response.data['sucesso'])),
+      );
+      recuperarCardapios(context);
+      cardapioEspecificoState = LocalState.idle;
+      notifyListeners();
+      // recuperarProdutosCardapio(context, ultimoCardapioSelecionado, nomeCardapioSelecionado);
+    } catch (e) {
+      print(e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
+  }
+
+  void removerCardapio(BuildContext context, int id) async {
+    final dio = Dio();
+    final url = '$urlServer/cardapio/$id';
 
     try {
       final response = await dio.delete(url);
       print(response);
+      if (response.data is Map && response.data.containsKey('error')) {
+        throw response.data['error'];
+      }
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Produto deletado com sucesso !")),
+        SnackBar(content: Text(response.data['sucesso'])),
+      );
+      recuperarCardapios(context);
+      cardapioEspecificoState = LocalState.idle;
+      notifyListeners();
+      Navigator.pop(context);
+    } catch (e) {
+      print(e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    }
+  }
+
+  void removerProduto(BuildContext context, int id) async {
+    final dio = Dio();
+    final url = '$urlServer/cardapio/produto/$id';
+
+    try {
+      final response = await dio.delete(url);
+      print(response);
+      if (response.data is Map && response.data.containsKey('error')) {
+        throw response.data['error'];
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(response.data['sucesso'])),
       );
       recuperarProdutosCardapio(context, ultimoCardapioSelecionado, nomeCardapioSelecionado);
       Navigator.pop(context);

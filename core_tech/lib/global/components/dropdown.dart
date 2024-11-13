@@ -20,10 +20,7 @@ class DropDown extends StatelessWidget {
     return DropdownButtonFormField(
       validator: validator,
       value: value,
-      items: [
-        DropdownMenuItem(child: Text("Garçom"), value: "G"),
-        DropdownMenuItem(child: Text("Caixa"), value: "C"),
-      ],
+      items: items,
       decoration: InputDecoration(
         enabled: enabled,
         border: UnderlineInputBorder(

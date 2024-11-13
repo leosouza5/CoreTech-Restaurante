@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class HeaderTabela extends StatelessWidget {
   final Icon icon;
-  final String titulo;
+  final Text titulo;
   const HeaderTabela({super.key, required this.icon, required this.titulo});
 
   @override
@@ -14,7 +14,7 @@ class HeaderTabela extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Padding(padding: const EdgeInsets.only(left: 8.0), child: titulo),
-          Tooltip(padding: EdgeInsets.all(8), preferBelow: false, message: titulo, child: icon),
+          titulo,
         ],
       ),
     ));
