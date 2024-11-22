@@ -7,11 +7,21 @@ import 'package:flutter/material.dart';
 
 class PedidosController extends ChangeNotifier {
   List pedidos = [];
+  List pedidosFechados = [];
   Map pedido = {};
 
   LocalState pedidosState = LocalState.idle;
   LocalState fechaPedidoState = LocalState.idle;
+  LocalState pedidosFechadosState = LocalState.idle;
   var erro;
+
+  double get valorTotal {
+    double v = 0;
+    pedidosFechados.forEach(
+      (element) => v += double.parse(element['valor_total']),
+    );
+    return v;
+  }
 
   void recuperarPedidos() async {
     final dio = Dio();
@@ -34,6 +44,33 @@ class PedidosController extends ChangeNotifier {
       print(e.toString());
       erro = e.toString();
       pedidosState = LocalState.error;
+      notifyListeners();
+    }
+  }
+
+  void recuperarPedidosFechados(String data) async {
+    final dio = Dio();
+    const url = '$urlServer/orders/fechado';
+    Map<String, dynamic> body = {'data': data};
+    print(body);
+    try {
+      pedidosFechadosState = LocalState.loading;
+      notifyListeners();
+      pedidosFechados.clear();
+      final response = await dio.get(url, queryParameters: body);
+      print(response);
+
+      if (response.data is Map && response.data.containsKey('error')) {
+        throw response.data['error'];
+      }
+
+      pedidosFechados = response.data;
+      pedidosFechadosState = LocalState.sucesso;
+      notifyListeners();
+    } catch (e) {
+      print(e.toString());
+      erro = e.toString();
+      pedidosFechadosState = LocalState.error;
       notifyListeners();
     }
   }

@@ -34,7 +34,7 @@ class AuthController extends ChangeNotifier {
         authState = LocalState.sucesso;
         notifyListeners();
 
-        if ((response.data[0]['tipo_usuario'] == 'G' || response.data[0]['tipo_usuario'] == 'A') && (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.windows)) {
+        if ((response.data[0]['tipo_usuario'] == 'G') && (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.windows)) {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(

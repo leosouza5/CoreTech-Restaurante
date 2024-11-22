@@ -4,17 +4,45 @@ export const recuperaPedidos = (req, res) => {
 
   pool.query("SELECT * from tb_pedido WHERE metodo_pagamento IS NULL", (error, result) => {
     if (error) {
-      return res.status(200).json({ error: "Erro ao consultar produtos." });
+      return res.status(200).json({ error: "Erro ao consultar pedidos." });
     }
 
     if (result.rowCount === 0) {
-      return res.status(200).json({ error: "Nenhum produto encontrado." });
+      return res.status(200).json({ error: "Nenhum pedido encontrado." });
     }
 
     res.status(200).json(result.rows)
 
   })
 }
+
+export const recuperaPedidosFechados = (req, res) => {
+  const { data } = req.query;
+  console.log(req.query)
+  if (!data) {
+    return res.status(200).json({ error: "A data é obrigatória." });
+  }
+
+  pool.query(
+    `SELECT * FROM tb_pedido 
+     WHERE metodo_pagamento IS NOT NULL 
+     AND data_pedido::date = $1::date`,
+    [data],
+    (error, result) => {
+      if (error) {
+        console.log(error.message)
+        return res.status(200).json({ error: "Erro ao consultar pedidos." });
+      }
+
+      if (result.rowCount === 0) {
+        return res.status(200).json({ error: "Nenhum pedido nessa data." });
+      }
+
+      res.status(200).json(result.rows);
+    }
+  );
+};
+
 export const recuperaProdutosDoPedido = (req, res) => {
   const id = parseInt(req.params.id)
 

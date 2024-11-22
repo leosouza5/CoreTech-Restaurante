@@ -1,4 +1,5 @@
 import 'package:core_tech/features/food_menu/screens/food_menu.dart';
+import 'package:core_tech/features/orders_resume/screens/orders_resume.dart';
 import 'package:core_tech/features/users/screens/users.dart';
 import 'package:core_tech/features/web_home_screen/components/header_tabela.dart';
 import 'package:core_tech/features/web_home_screen/controller/pedidos_controller.dart';
@@ -55,9 +56,14 @@ class _WebHomeScreenState extends State<WebHomeScreen> {
                 )),
             label: "Usuários",
           ),
-          const BotaoAcaoRapida(
+          BotaoAcaoRapida(
             icon: Icon(Icons.savings_outlined, size: 30),
             label: "Relatorio",
+            onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const OrdersResume(),
+                )),
           ),
           BotaoAcaoRapida(
             label: "Cardapio",
