@@ -17,7 +17,9 @@ import 'package:provider/provider.dart';
 import 'global/theme/theme.dart';
 import 'global/util/util.dart';
 
-const urlServer = 'http://192.168.0.202:3030';
+const urlServer = 'http://192.168.0.133:3030';
+
+bool admin = false;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,7 +58,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'CoreTech',
         theme: theme.light(),
-        home: OrdersResume(),
+        home: AuthScreen(),
       ),
     );
   }

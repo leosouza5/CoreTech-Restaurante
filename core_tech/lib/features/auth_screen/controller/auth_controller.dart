@@ -34,7 +34,13 @@ class AuthController extends ChangeNotifier {
         authState = LocalState.sucesso;
         notifyListeners();
 
-        if ((response.data[0]['tipo_usuario'] == 'G') && (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.windows)) {
+        if(response.data[0]['tipo_usuario'] == 'A'){
+          admin = true;
+        }else{
+          admin = false;
+        }
+
+        if ((response.data[0]['tipo_usuario'] == 'G') && (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS )) {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -49,6 +55,7 @@ class AuthController extends ChangeNotifier {
         } else {
           throw "Você não tem acesso a esta plataforma";
         }
+        controllerSenha.clear();
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Login feito com sucesso !")),

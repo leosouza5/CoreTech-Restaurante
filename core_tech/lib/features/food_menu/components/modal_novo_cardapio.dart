@@ -31,16 +31,20 @@ class _ModalNovoCardapioState extends State<ModalNovoCardapio> {
       insetPadding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.1),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.3,
-        height: MediaQuery.of(context).size.height * 0.4,
+        height: MediaQuery.of(context).size.height * 0.5,
         child: Padding(
           padding: const EdgeInsets.all(32.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                widget.edicao ? 'Atualizar Cardápio' : 'Adicionar Cardápio',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  widget.edicao ? 'Atualizar Cardápio' : 'Adicionar Cardápio',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                ),
               ),
               const SizedBox(height: 20),
               Padding(
@@ -52,7 +56,7 @@ class _ModalNovoCardapioState extends State<ModalNovoCardapio> {
               ),
               const SizedBox(height: 20),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   TextButton(
                     onPressed: () {
@@ -60,7 +64,6 @@ class _ModalNovoCardapioState extends State<ModalNovoCardapio> {
                     },
                     child: const Text('Cancelar'),
                   ),
-                  SizedBox(width: 120),
                   ElevatedButton(
                     onPressed: () {
                       final controllerMenu = context.read<FoodMenuController>();

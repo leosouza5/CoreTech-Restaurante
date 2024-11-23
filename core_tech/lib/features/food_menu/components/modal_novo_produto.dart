@@ -1,6 +1,7 @@
 import 'package:core_tech/features/food_menu/controller/food_menu_controller.dart';
 import 'package:core_tech/global/components/input.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:provider/provider.dart';
 
 class ModalNovoProduto extends StatefulWidget {
@@ -24,7 +25,14 @@ class _ModalNovoProdutoState extends State<ModalNovoProduto> {
 
   final TextEditingController controllerDescricao = TextEditingController();
 
-  final TextEditingController controllerValor = TextEditingController();
+  // final TextEditingController controllerValor = TextEditingController();
+
+  final controllerValor = MoneyMaskedTextController(
+    decimalSeparator: '.',
+    thousandSeparator: '',
+    leftSymbol: 'R\$ ',
+  );
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(
@@ -116,7 +124,7 @@ class _ModalNovoProdutoState extends State<ModalNovoProduto> {
                                 {
                                   "nome": controllerNome.text,
                                   "descricao": controllerDescricao.text,
-                                  "valor": controllerValor.text,
+                                  "valor": controllerValor.text.substring(3),
                                   "id_cardapio": widget.idCardapio,
                                 },
                                 widget.id!,
@@ -125,7 +133,7 @@ class _ModalNovoProdutoState extends State<ModalNovoProduto> {
                               controllerMenu.adicionarProdutoAoCardapio(context, {
                                 "nome": controllerNome.text,
                                 "descricao": controllerDescricao.text,
-                                "valor": controllerValor.text,
+                                "valor": controllerValor.text.substring(3),
                                 "id_cardapio": widget.idCardapio,
                               });
                             }
